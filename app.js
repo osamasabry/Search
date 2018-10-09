@@ -4,7 +4,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var port     = process.env.PORT || 3111;
 var routes = require('./routes/index');
 var db= require('mongoose');
 
@@ -20,7 +20,7 @@ require('./config/passport')(passport);
 
 var app = express();
 
-db.connect("mongodb://localhost:27017/Medical");
+db.connect(process.env.rxpProductionDBConnection);
 
 // view engine setup
 app.use(express.static(path.join(__dirname, 'public')));
@@ -72,7 +72,9 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
+var listener = app.listen(port, function(){
+    console.log('Listening on port ' + listener.address().port); //Listening on port 8888
+});
 
 
 module.exports = app;

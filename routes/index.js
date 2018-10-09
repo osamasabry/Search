@@ -35,7 +35,9 @@ router.post('/login', type,function(req, res, next) {
         });
       })(req, res, next);
 });
-
+router.get('/hello', function (req, res) {
+  res.send('hello world')
+})
 
 
 router.post('/search', type,function(req, res) {
