@@ -6,6 +6,7 @@
     "start": "nodejs ./bin/www"
   },
   "dependencies": {
+    "async": "^2.6.1",
     "asyncawait": "^1.0.7",
     "body-parser": "~1.0.0",
     "cookie-parser": "~1.0.1",
