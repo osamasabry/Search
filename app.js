@@ -20,7 +20,7 @@ require('./config/passport')(passport);
 
 var app = express();
 
-db.connect(process.env.rxpProductionDBConnection);
+db.connect(process.env.rxpProductionDBConnection,{useNewUrlParser: true});
 
 // view engine setup
 app.use(express.static(path.join(__dirname, 'public')));
