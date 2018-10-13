@@ -11,7 +11,7 @@ var getTNData=[];
 var TNData=[];
 module.exports = {
 	SearchByName:function(req,res){
-	 	var Searchquery = req.body.search;
+	 	//var Searchquery = req.body.search;
 
 		AI.find({})
 			.select('AI_Code AI_Name')
@@ -41,7 +41,6 @@ module.exports = {
 					message: err
 					});
 		    	} else {
-		    		console.log(tn)
 		    		for (var i = 0; i < tn.length; i++) {
 		    			Data.push({
 						    key: tn[i].TN_Code,
