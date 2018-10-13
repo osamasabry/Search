@@ -34,7 +34,7 @@ router.post('/login', type,function(req, res, next) {
 
 
 
-router.post('/search', type,function(req, res) {
+router.post('/searchAIandTN', type,function(req, res) {
       var Search = async (function (){
         await (SearchCTRL.SearchByName(req,res));
     });
