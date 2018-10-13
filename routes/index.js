@@ -41,4 +41,21 @@ router.post('/search', type,function(req, res) {
     Search();
 });
 
+
+router.post('/getData', type,function(req, res) {
+      var getData = async (function (){
+        await (SearchCTRL.getAllData(req,res));
+    });
+    getData();
+});
+
+
+router.post('/getTN', type,function(req, res) {
+      var getTN = async (function (){
+        await (SearchCTRL.getSingleTN(req,res));
+    });
+    getTN();
+});
+
+
 module.exports = router;
