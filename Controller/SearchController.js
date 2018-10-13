@@ -13,7 +13,7 @@ module.exports = {
 	SearchByName:function(req,res){
 	 	var Searchquery = req.body.search;
 
-		AI.find({AI_Name:{ $regex: new RegExp("^" + Searchquery.toLowerCase(), "i") }})
+		AI.find({})
 			.select('AI_Code AI_Name')
 			.exec(function(err, ai) {
 			if (err){
@@ -32,7 +32,7 @@ module.exports = {
 			}
 		})
 		function findTN(){
-			TN.find({TN_Name:{ $regex: new RegExp("^" + Searchquery.toLowerCase(), "i") }})
+			TN.find({})
 				.select('TN_Code TN_Name TN_ActiveIngredients')
 				.exec(function(err, tn) {
 

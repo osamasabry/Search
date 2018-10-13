@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var port     = process.env.PORT || 3111;
 var routes = require('./routes/index');
 var db= require('mongoose');
+var cors = require('cors');
 
 // var md5 = require('md5');
 
@@ -19,7 +20,7 @@ require('./config/passport')(passport);
 
 
 var app = express();
-
+app.use(cors({credentials: true, origin: true}))
 db.connect(process.env.rxpProductionDBConnection,{useNewUrlParser: true});
 
 // view engine setup
