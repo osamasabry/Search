@@ -6,7 +6,6 @@ var user = require('../Controller/userController');
 var account = require('../Controller/accountController');
 var SearchCTRL = require('../Controller/SearchController');
 
-var AI = require('../Model/AI');
 
 
 var passport = require('passport');
@@ -37,27 +36,7 @@ router.post('/login', type,function(req, res, next) {
 
 router.post('/searchAIandTN', type,function(req, res) {
       var Search = async (function (){
-        // await (SearchCTRL.SearchByName(req,res));
-      AI.find({})
-      .select('AI_Code AI_Name')
-      .exec(function(err, ai) {
-      if (err){
-          return res.send({
-          message: err
-        });
-        } else {
-      //    for (var i = 0; i < ai.length; i++) {
-      //      Data.push({
-          //     key: ai[i].AI_Code,
-          //     value: ai[i].AI_Name,
-          //     type:'AI'
-          // });
-      //    }
-          // Data.push({AIData:ai});
-          res.send(ai);
-        // findTN();
-      }
-    })
+        await (SearchCTRL.SearchByName(req,res));
     });
     Search();
 });

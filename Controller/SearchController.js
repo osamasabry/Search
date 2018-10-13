@@ -21,40 +21,38 @@ module.exports = {
 					message: err
 				});
 	    	} else {
-	    // 		for (var i = 0; i < ai.length; i++) {
-	    // 			Data.push({
-					//     key: ai[i].AI_Code,
-					//     value: ai[i].AI_Name,
-					//     type:'AI'
-					// });
-	    // 		}
-	    		Data.push({AIData:ai});
-	    		res.send(Data);
-				// findTN();
+	    		for (var i = 0; i < ai.length; i++) {
+	    			Data.push({
+					    key: ai[i].AI_Code,
+					    value: ai[i].AI_Name,
+					    type:'AI'
+					});
+	    		}
+				findTN();
 			}
 		})
-		// function findTN(){
-		// 	TN.find({})
-		// 		.select('TN_Code TN_Name TN_ActiveIngredients')
-		// 		.exec(function(err, tn) {
+		function findTN(){
+			TN.find({})
+				.select('TN_Code TN_Name TN_ActiveIngredients')
+				.exec(function(err, tn) {
 
-		// 		if (err){
-	 //    			return res.send({
-		// 			message: err
-		// 			});
-		//     	} else {
-		//     		for (var i = 0; i < tn.length; i++) {
-		//     			Data.push({
-		// 				    key: tn[i].TN_Code,
-		// 				    value: tn[i].TN_Name,
-		// 				    type:'TN',
-		// 				    ai: tn[i].TN_ActiveIngredients[0],
-		// 				});
-		//     		}
-		//     		res.send(Data);
-		// 		}
-		// 	})
-		// }
+				if (err){
+	    			return res.send({
+					message: err
+					});
+		    	} else {
+		    		for (var i = 0; i < tn.length; i++) {
+		    			Data.push({
+						    key: tn[i].TN_Code,
+						    value: tn[i].TN_Name,
+						    type:'TN',
+						    ai: tn[i].TN_ActiveIngredients[0],
+						});
+		    		}
+		    		res.send(Data);
+				}
+			})
+		}
 	},
 
 	getAllData:function(req,res){
