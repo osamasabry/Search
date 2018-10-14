@@ -164,16 +164,16 @@ module.exports = {
 						message: err
 					});
 		    	} else {
-		    		FindData.Countries=[];
+		    		var Countries=[];
 		    		for (var i = 0; i < countrybasedai.length; i++) {
-		    			FindData.Countries.push({
+		    			Countries.push({
 		    				CountryCode:countrybasedai[i].CountryBasedAICountry.Country_Code,
 		    				CountryName:countrybasedai[i].CountryBasedAICountry.Country_Name
 		    			});
-		    		}
-		    	}
-		    	// console.log(FindData);
-		    	res.send(FindData);
+					}
+					FindData.push({Countries: Countries});
+				}
+		    	res.send( FindData);
 			})
 
 		}
