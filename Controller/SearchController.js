@@ -139,7 +139,7 @@ module.exports = {
 		}
 	},
 
-	checkData:function(req,res){
+	checkDataAI:function(req,res){
 		FindData =[];
 		AI.findOne({AI_Code: Number(req.body.AI_Code)},function(err, ai){
 			if (err){
@@ -174,6 +174,46 @@ module.exports = {
 					FindData.push({Countries: Countries});
 				}
 		    	res.send( FindData);
+			})
+
+		}
+	}
+
+	checkDataTN:function(req,res){
+		FindData =[];
+		TN.findOne({TN_Code: Number(req.body.TN_Code)},function(err, tn){
+			if (err){
+	    		res.send({
+					message: err
+				});
+	    	} else {
+	    		FindData.push({tn:true});
+	    		CheckCountryBasedTN()
+	    	}
+		})
+
+		function CheckCountryBasedTN(){
+			var Searchquery = req.body.country_ids;
+			CountryBasedTN.find({$and:[ {'CountryBasedTN_Country_ID':{$in:Searchquery}}, 
+				{'CountryBasedAI_AI_Code':Number(req.body.AI_Code)} ]})
+				.populate({ path: 'CountryBasedTNCountry', select: 'Country_Name' })
+				.select('CountryBasedTN_Country_ID')
+				.exec(function(err, countrybasedtn){
+				if (err){
+		    		res.send({
+						message: err
+					});
+		    	} else {
+		    		var Countries=[];
+		    		for (var i = 0; i < countrybasedtn.length; i++) {
+		    			Countries.push({
+		    				CountryCode:countrybasedtn[i].CountryBasedTNCountry.Country_Code,
+		    				CountryName:countrybasedtn[i].CountryBasedTNCountry.Country_Name
+		    			});
+					}
+					FindData.push({Countries: Countries});
+				}
+		    	res.send(FindData);
 			})
 
 		}
