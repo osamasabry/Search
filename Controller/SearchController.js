@@ -4,7 +4,7 @@ var CountryBasedAI = require('../Model/country_based_AI');
 var CountryBasedTN = require('../Model/country_based_TN');
 
 
-var Data=[];
+var Data={};
 var AllData=[];
 var getTNData=[];
 
@@ -12,43 +12,40 @@ var TNData=[];
 module.exports = {
 	SearchByName:function(req,res){
 	 	//var Searchquery = req.body.search;
-
-		AI.find({})
-			.select('AI_Code AI_Name')
-			.exec(function(err, ai) {
-			if (err){
-	    		return res.send({
-					message: err
-				});
-	    	} else {
-	    		for (var i = 0; i < ai.length; i++) {
-	    			Data.push({
-					    key: ai[i].AI_Code,
-					    value: ai[i].AI_Name,
-					    type:'AI'
-					});
-	    		}
-				findTN();
+		 AI.aggregate([
+			{ "$project": {
+				"_id": 0,
+				"key": "$AI_Code",
+				"value": "$AI_Name",
+				"type": "AI"
 			}
+		}]).exec(function(err, ai) {
+				if (err){
+					return res.send({
+						message: err
+					});
+				} else {
+					Data = ai;
+					findTN();
+				}
 		})
 		function findTN(){
-			TN.find({})
-				.select('TN_Code TN_Name TN_ActiveIngredients')
-				.exec(function(err, tn) {
+			TN.aggregate([
+				{ "$project": {
+					"_id": 0,
+					"key": "$TN_Code",
+					"value": "$TN_Name",
+					"type": "TN",
+					"aicode": "$TN_ActiveIngredients"
+				}
+			}]).exec(function(err, tn) {
 
 				if (err){
 	    			return res.send({
 					message: err
 					});
 		    	} else {
-		    		for (var i = 0; i < tn.length; i++) {
-		    			Data.push({
-						    key: tn[i].TN_Code,
-						    value: tn[i].TN_Name,
-						    type:'TN',
-						    ai: tn[i].TN_ActiveIngredients[0],
-						});
-		    		}
+		    		Data = Object.assign(Data, tn);
 		    		res.send(Data);
 				}
 			})
