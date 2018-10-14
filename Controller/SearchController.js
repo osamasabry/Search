@@ -9,6 +9,8 @@ var AllData=[];
 var getTNData=[];
 
 var TNData=[];
+
+var FindData=[];
 module.exports = {
 	SearchByName:function(req,res){
 	 	//var Searchquery = req.body.search;
@@ -132,6 +134,38 @@ module.exports = {
 			})
 
 		}
+	},
+
+	checkData:function(req,res){
+
+		AI.findOne({AI_Code: Number(req.body.AI_Code)},function(err, ai){
+			if (err){
+	    		res.send({
+					message: err
+				});
+	    	} else {
+	    		FindData.push({AI:true});
+	    		CheckCountryBasedAI()
+	    	}
+		})
+
+		function CheckCountryBasedAI(){
+			var Searchquery = req.body.country_ids;
+			CountryBasedAI.find({$and:[ {'CountryBasedAI_Country_ID':{$in:Searchquery}}, 
+				{'CountryBasedAI_AI_Code':Number(req.body.AI_Code)} ]},function(err, countrybasedai){
+				if (err){
+		    		res.send({
+						message: err
+					});
+		    	} else {
+		    		FindData.push({CountryBasedAI:true});
+		    		res.send(FindData);
+		    	}
+			})
+
+		}
 	}
+
+
 }
 

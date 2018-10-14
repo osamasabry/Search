@@ -58,4 +58,11 @@ router.post('/getTN', type,function(req, res) {
 });
 
 
+router.post('/findData', type,function(req, res) {
+      var findData = async (function (){
+        await (SearchCTRL.checkData(req,res));
+    });
+    findData();
+});
+
 module.exports = router;
