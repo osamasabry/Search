@@ -62,11 +62,13 @@ router.post('/findData', type,function(req, res) {
       var findData = async (function (){
         if (req.type=='AI') 
           await (SearchCTRL.checkDataAI(req,res));
-        else
+        else if(req.type=='TN')
           await (SearchCTRL.checkDataTN(req,res));
-
+        else
+          await (SearchCTRL.checkDataBySearch(req,res));
     });
     findData();
 });
+
 
 module.exports = router;

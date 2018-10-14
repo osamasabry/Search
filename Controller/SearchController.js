@@ -14,6 +14,9 @@ var getTNData=[];
 var TNData=[];
 
 var FindData=[];
+
+var DataBySearch = [];
+
 module.exports = {
 	SearchByName:function(req,res){
 	 	//var Searchquery = req.body.search;
@@ -177,7 +180,7 @@ module.exports = {
 			})
 
 		}
-	}
+	},
 
 	checkDataTN:function(req,res){
 		FindData =[];
@@ -217,8 +220,35 @@ module.exports = {
 			})
 
 		}
+	},
+
+	checkDataBySearch:function(req,res){
+		var Searchquery = req.body.search;
+		AI.find({AI_Name:{$regex:Searchquery}},function(err, ai) {
+			if (err){
+	    		return response.send({
+					user : request.user ,
+					message: err
+				});
+	    	}else {
+				DataBySearch.push(ai);
+				getTNData()
+			}
+
+			function getTNData(){
+				TN.find({TN_Name:{$regex:Searchquery}},function(err, tn) {
+					if (err){
+			    		return response.send({
+							user : request.user ,
+							message: err
+						});
+			    	}else {
+						DataBySearch.push(tn);
+					}
+					res.send(DataBySearch);
+				})
+			}
+		})
 	}
-
-
 }
 
