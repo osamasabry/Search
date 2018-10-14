@@ -60,9 +60,9 @@ router.post('/getTN', type,function(req, res) {
 
 router.post('/findData', type,function(req, res) {
       var findData = async (function (){
-        if (req.type=='AI') 
+        if (req.body.type=='AI') 
           await (SearchCTRL.checkDataAI(req,res));
-        else if(req.type=='TN')
+        else if(req.body.type=='TN')
           await (SearchCTRL.checkDataTN(req,res));
         else
           await (SearchCTRL.checkDataBySearch(req,res));
