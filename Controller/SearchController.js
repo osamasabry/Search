@@ -3,6 +3,9 @@ var TN = require('../Model/TN');
 var CountryBasedAI = require('../Model/country_based_AI');
 var CountryBasedTN = require('../Model/country_based_TN');
 
+var Country = require('../Model/countries');
+
+
 
 var Data={};
 var AllData=[];
@@ -152,15 +155,25 @@ module.exports = {
 		function CheckCountryBasedAI(){
 			var Searchquery = req.body.country_ids;
 			CountryBasedAI.find({$and:[ {'CountryBasedAI_Country_ID':{$in:Searchquery}}, 
-				{'CountryBasedAI_AI_Code':Number(req.body.AI_Code)} ]},function(err, countrybasedai){
+				{'CountryBasedAI_AI_Code':Number(req.body.AI_Code)} ]})
+				.populate({ path: 'CountryBasedAICountry', select: 'Country_Name' })
+				.select('CountryBasedAI_Country_ID')
+				.exec(function(err, countrybasedai){
 				if (err){
 		    		res.send({
 						message: err
 					});
 		    	} else {
-		    		FindData.push({CountryBasedAI:true});
-		    		res.send(FindData);
+		    		FindData.Countries=[];
+		    		for (var i = 0; i < countrybasedai.length; i++) {
+		    			FindData.Countries.push({
+		    				CountryCode:countrybasedai[i].CountryBasedAICountry.Country_Code,
+		    				CountryName:countrybasedai[i].CountryBasedAICountry.Country_Name
+		    			});
+		    		}
 		    	}
+		    	// console.log(FindData);
+		    	res.send(FindData);
 			})
 
 		}

@@ -28,6 +28,16 @@ var rxp_CountryBasedAISchema = mongoose.Schema({
     CountryBasedAI_AI_Code                         :Number,
     CountryBasedAI_Country_ID                      :Number,
     
+},{
+    toObject: { virtuals: true }
+});
+
+rxp_CountryBasedAISchema.virtual('CountryBasedAICountry', {
+    ref: 'rxp_countries',
+    localField: 'CountryBasedAI_Country_ID',
+    foreignField: 'Country_Code',
+    justOne: true // for many-to-1 relationships
+
 });
 
 
