@@ -198,7 +198,7 @@ module.exports = {
 		function CheckCountryBasedTN(){
 			var Searchquery = req.body.country_ids;
 			CountryBasedTN.find({$and:[ {'CountryBasedTN_Country_ID':{$in:Searchquery}}, 
-				{'CountryBasedAI_AI_Code':Number(req.body.AI_Code)} ]})
+				{'CountryBasedTN_TN_Code':Number(req.body.TN_Code)} ]})
 				.populate({ path: 'CountryBasedTNCountry', select: 'Country_Name' })
 				.select('CountryBasedTN_Country_ID')
 				.exec(function(err, countrybasedtn){
