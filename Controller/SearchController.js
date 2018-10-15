@@ -294,29 +294,11 @@ module.exports = {
 						});
 		    		}
 		    		AllData.push({TNData:getTNData});
-		    		res.send(AllData);
+		    		console.log("pppp");
+		    		res.json(AllData);
 		    	}
 			})
 		}
-		// function getAllTN(){
-		// 	TN.find({TN_ActiveIngredients:{$in:[req.body.AI_Code]}})
-		// 		.exec(function(err, tn) {
-		// 		if (err){
-		//     		return res.send({
-		// 				message: err
-		// 			});
-		//     	} else {
-		//     		for (var i = 0; i < tn.length; i++) {
-		//     			getTNData.push({
-		// 				    key: tn[i].TN_Code,
-		// 				    value: tn[i].TN_Name,
-		// 				});
-		//     		}
-		//     		AllData.push({TNData:getTNData});
-		//     		res.send(AllData);
-		//     	}
-		// 	})
-		// }
 	},
 
 	getDataTN:function(req,res){
