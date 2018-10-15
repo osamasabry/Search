@@ -253,6 +253,46 @@ module.exports = {
 				})
 			}
 		})
-	}
+	},
+
+	getDataAI:function(req,res){
+		AllData=[];
+		AI.findOne({AI_Code: Number(req.body.AI_Code)},function(err, ai){
+			if (err){
+	    		res.send({
+					message: err
+				});
+	    	} else {
+	    		AllData.push({AIData:ai});
+	    		getTN();
+	    	}
+		})
+
+		function getTN(){
+			TN.find({TN_ActiveIngredients:{$in:[req.body.AI_Code]}})
+				.select('TN_Code TN_Name')
+				.exec(function(err, tn) {
+				if (err){
+		    		return res.send({
+						message: err
+					});
+		    	} else {
+		    		for (var i = 0; i < tn.length; i++) {
+		    			getTNData.push({
+						    key: tn[i].TN_Code,
+						    value: tn[i].TN_Name,
+						});
+		    		}
+		    		AllData.push({TNData:getTNData});
+		    		res.send(AllData);
+		    	}
+			})
+		}
+
+	},
+
+
+	
+
 }
 

@@ -70,5 +70,19 @@ router.post('/findData', type,function(req, res) {
     findData();
 });
 
+router.post('/displayData', type,function(req, res) {
+      var findData = async (function (){
+        if (req.body.type=='MasterAI') 
+          await (SearchCTRL.getDataAI(req,res));
+        else if(req.body.type=='MasterTN')
+          await (SearchCTRL.getDataTN(req,res));
+        else if(req.body.type=='CountryAI')
+          await (SearchCTRL.getDataCountryAI(req,res));
+        else if(req.body.type=='CountryTN')
+          await (SearchCTRL.getDataCountryTN(req,res));
+    });
+    findData();
+});
+
 
 module.exports = router;
