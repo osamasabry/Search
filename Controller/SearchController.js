@@ -322,7 +322,7 @@ module.exports = {
 	getDataTN:function(req,res){
 		AllData=[];
 		TNData=[];
-
+		getTNData=[];
 		// console.log(req.body.ai_ids);
 		var search = 1;
 		
