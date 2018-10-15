@@ -321,7 +321,7 @@ module.exports = {
 
 	getDataTN:function(req,res){
 		AllData=[];
-		var search = req.body.ai{ids[0];
+		var search = req.body.ai_ids[0];
 		
 		AI.findOne({AI_Code: Number(search)})
 		.populate({ path: 'pharamaceutical', select: 'Pharmaceutical_Category_Name Pharmaceutical_Category_ATC_Code' })
