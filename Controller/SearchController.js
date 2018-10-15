@@ -322,7 +322,9 @@ module.exports = {
 	getDataTN:function(req,res){
 		AllData=[];
 		TNData=[];
-		var search = req.body.ai_ids[0];
+
+		// console.log(req.body.ai_ids);
+		var search = 1;
 		
 		AI.findOne({AI_Code: Number(search)})
 		.populate({ path: 'pharamaceutical', select: 'Pharmaceutical_Category_Name Pharmaceutical_Category_ATC_Code' })
@@ -339,7 +341,7 @@ module.exports = {
 		})
 
 		function getAllTN(){
-			TN.find({TN_ActiveIngredients:{$in:[req.body.AI_Code]}})
+			TN.find({TN_ActiveIngredients:{$in:[search]}})
 				.select('TN_Code TN_Name')
 				
 				.exec(function(err, tn) {
@@ -354,14 +356,14 @@ module.exports = {
 						    value: tn[i].TN_Name,
 						});
 		    		}
-		    		AllData.push({TNData:getTNData});
+		    		AllData.push({TNList:getTNData});
 		    		// res.send(AllData);
 		    	}
 			})
 		}
 		
 		function getTN(){
-			TN.find({TN_Code:{$in:[req.body.TN_Code]}})
+			TN.find({TN_Code:req.body.TN_Code })
 				.populate({ path: 'form', select: 'Form_Name' })
 				.populate({ path: 'route', select: 'Route_Name' })
 				.populate({ path: 'strength', select: 'StrengthUnit_Name' })
@@ -376,13 +378,8 @@ module.exports = {
 						message: err
 					});
 		    	} else {
-		    		for (var i = 0; i < tn.length; i++) {
-		    			getTNData.push({
-						    key: tn[i].TN_Code,
-						    value: tn[i].TN_Name,
-						});
-		    		}
-		    		AllData.push({TNData:getTNData});
+		    // 		
+		    		AllData.push({TNData:tn});
 		    		res.send(AllData);
 		    	}
 			})
