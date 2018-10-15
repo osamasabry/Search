@@ -274,31 +274,32 @@ module.exports = {
 				});
 	    	} else {
 	    		AllData.push({AIData:ai});
-    			getTN();
+	    		res.send(AllData);
+    			// getTN();
 	    	}
 		})
 
-		function getTN(){
-			TN.find({TN_ActiveIngredients:{$in:[req.body.AI_Code]}})
-				.select('TN_Code TN_Name')
-				.exec(function(err, tn) {
-				if (err){
-		    		return res.send({
-						message: err
-					});
-		    	} else {
-		    		for (var i = 0; i < tn.length; i++) {
-		    			getTNData.push({
-						    key: tn[i].TN_Code,
-						    value: tn[i].TN_Name,
-						});
-		    		}
-		    		AllData.push({TNData:getTNData});
-		    		console.log("pppp");
-		    		res.json(AllData);
-		    	}
-			})
-		}
+		// function getTN(){
+		// 	TN.find({TN_ActiveIngredients:{$in:[req.body.AI_Code]}})
+		// 		.select('TN_Code TN_Name')
+		// 		.exec(function(err, tn) {
+		// 		if (err){
+		//     		return res.send({
+		// 				message: err
+		// 			});
+		//     	} else {
+		//     		for (var i = 0; i < tn.length; i++) {
+		//     			getTNData.push({
+		// 				    key: tn[i].TN_Code,
+		// 				    value: tn[i].TN_Name,
+		// 				});
+		//     		}
+		//     		AllData.push({TNData:getTNData});
+		//     		console.log("pppp");
+		//     		res.json(AllData);
+		//     	}
+		// 	})
+		// }
 	},
 
 	getDataTN:function(req,res){
