@@ -255,7 +255,7 @@ module.exports = {
 		})
 	},
 
-	getDataAI:function(req,res){
+	getDataAIOrTN:function(req,res){
 		AllData=[];
 		AI.findOne({AI_Code: Number(req.body.AI_Code)},function(err, ai){
 			if (err){
@@ -264,7 +264,10 @@ module.exports = {
 				});
 	    	} else {
 	    		AllData.push({AIData:ai});
-	    		getTN();
+	    		if (req.body.type='MasterAI')
+	    			getTN();
+	    		else if (req.body.type='MasterAI')
+	    			getAllTN()
 	    	}
 		})
 
@@ -289,6 +292,26 @@ module.exports = {
 			})
 		}
 
+		function getAllTN(){
+			TN.find({TN_ActiveIngredients:{$in:[req.body.AI_Code]}})
+				.exec(function(err, tn) {
+				if (err){
+		    		return res.send({
+						message: err
+					});
+		    	} else {
+		    		for (var i = 0; i < tn.length; i++) {
+		    			getTNData.push({
+						    key: tn[i].TN_Code,
+						    value: tn[i].TN_Name,
+						});
+		    		}
+		    		AllData.push({TNData:getTNData});
+		    		res.send(AllData);
+		    	}
+			})
+		}
+		
 	},
 
 
