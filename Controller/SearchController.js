@@ -4,6 +4,13 @@ var CountryBasedAI = require('../Model/country_based_AI');
 var CountryBasedTN = require('../Model/country_based_TN');
 
 var Country = require('../Model/countries');
+var Pharmaceutical_category = require('../Model/lut_pharmaceutical_categories');
+var Forms                      = require('../Model/lut_form');
+var Routes                     = require('../Model/lut_route');
+var Concentration              = require('../Model/lut_concentration');
+var StrengthUnits			   = require('../Model/lut_strength_units');
+var WeightUnits				   = require('../Model/lut_weight_units');
+var VolumeUnits				   = require('../Model/lut_volume_units');
 
 
 
@@ -255,19 +262,19 @@ module.exports = {
 		})
 	},
 
-	getDataAIOrTN:function(req,res){
+	getDataAI:function(req,res){
 		AllData=[];
-		AI.findOne({AI_Code: Number(req.body.AI_Code)},function(err, ai){
+
+		AI.findOne({AI_Code: Number(req.body.AI_Code)})
+		.populate({ path: 'pharamaceutical', select: 'Pharmaceutical_Category_Name Pharmaceutical_Category_ATC_Code' })
+		.exec(function(err, ai){
 			if (err){
 	    		res.send({
 					message: err
 				});
 	    	} else {
 	    		AllData.push({AIData:ai});
-	    		if (req.body.type='MasterAI')
-	    			getTN();
-	    		else if (req.body.type='MasterAI')
-	    			getAllTN()
+    			getTN();
 	    	}
 		})
 
@@ -291,9 +298,68 @@ module.exports = {
 		    	}
 			})
 		}
+		// function getAllTN(){
+		// 	TN.find({TN_ActiveIngredients:{$in:[req.body.AI_Code]}})
+		// 		.exec(function(err, tn) {
+		// 		if (err){
+		//     		return res.send({
+		// 				message: err
+		// 			});
+		//     	} else {
+		//     		for (var i = 0; i < tn.length; i++) {
+		//     			getTNData.push({
+		// 				    key: tn[i].TN_Code,
+		// 				    value: tn[i].TN_Name,
+		// 				});
+		//     		}
+		//     		AllData.push({TNData:getTNData});
+		//     		res.send(AllData);
+		//     	}
+		// 	})
+		// }
+	},
+
+	getDataTN:function(req,res){
+		AllData=[];
+		var search = req.body.AI_Code[0];
+		
+		AI.findOne({AI_Code: Number(search)})
+		.populate({ path: 'pharamaceutical', select: 'Pharmaceutical_Category_Name Pharmaceutical_Category_ATC_Code' })
+		.exec(function(err, ai){
+			if (err){
+	    		res.send({
+					message: err
+				});
+	    	} else {
+	    		AllData.push({AIData:ai});
+    			getAllTN();
+    			getTN();
+	    	}
+		})
 
 		function getAllTN(){
 			TN.find({TN_ActiveIngredients:{$in:[req.body.AI_Code]}})
+				.select('TN_Code TN_Name')
+				.exec(function(err, tn) {
+				if (err){
+		    		return res.send({
+						message: err
+					});
+		    	} else {
+		    		for (var i = 0; i < tn.length; i++) {
+		    			getTNData.push({
+						    key: tn[i].TN_Code,
+						    value: tn[i].TN_Name,
+						});
+		    		}
+		    		AllData.push({TNData:getTNData});
+		    		// res.send(AllData);
+		    	}
+			})
+		}
+		
+		function getTN(){
+			TN.find({TN_Code:{$in:[req.body.TN_Code]}})
 				.exec(function(err, tn) {
 				if (err){
 		    		return res.send({
@@ -311,10 +377,7 @@ module.exports = {
 		    	}
 			})
 		}
-		
 	},
-
-
 	
 
 }
