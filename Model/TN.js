@@ -69,7 +69,7 @@ rxp_TNTableSchema.virtual('country',{
     ref: 'rxp_countries',
     localField: 'TN_Country_ID',
     foreignField: 'Country_Code',
-    justOne: false // for many-to-1 relationships
+    justOne: true // for many-to-1 relationships
 });
 
 
@@ -77,7 +77,7 @@ rxp_TNTableSchema.virtual('ai',{
     ref: 'rxp_ai',
     localField: 'TN_ActiveIngredients',
     foreignField: 'AI_Code',
-    justOne: false // for many-to-1 relationships
+    justOne: true // for many-to-1 relationships
 });
 
 
