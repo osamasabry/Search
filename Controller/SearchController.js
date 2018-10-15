@@ -224,7 +224,9 @@ module.exports = {
 
 	checkDataBySearch:function(req,res){
 		var Searchquery = req.body.search;
-		AI.find({AI_Name:{$regex:Searchquery}},function(err, ai) {
+		AI.find({AI_Name:{$regex:Searchquery}})
+		.select('AI_Code AI_Name')
+		.exec(function(err, ai) {
 			if (err){
 	    		return response.send({
 					user : request.user ,
@@ -236,7 +238,9 @@ module.exports = {
 			}
 
 			function getTNData(){
-				TN.find({TN_Name:{$regex:Searchquery}},function(err, tn) {
+				TN.find({TN_Name:{$regex:Searchquery}})
+				.select('TN_Code TN_Name')
+				.exec(function(err, tn) {
 					if (err){
 			    		return response.send({
 							user : request.user ,
