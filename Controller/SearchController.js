@@ -321,6 +321,7 @@ module.exports = {
 
 	getDataTN:function(req,res){
 		AllData=[];
+		TNData=[];
 		var search = req.body.ai_ids[0];
 		
 		AI.findOne({AI_Code: Number(search)})
@@ -340,6 +341,7 @@ module.exports = {
 		function getAllTN(){
 			TN.find({TN_ActiveIngredients:{$in:[req.body.AI_Code]}})
 				.select('TN_Code TN_Name')
+				
 				.exec(function(err, tn) {
 				if (err){
 		    		return res.send({
@@ -360,6 +362,14 @@ module.exports = {
 		
 		function getTN(){
 			TN.find({TN_Code:{$in:[req.body.TN_Code]}})
+				.populate({ path: 'form', select: 'Form_Name' })
+				.populate({ path: 'route', select: 'Route_Name' })
+				.populate({ path: 'strength', select: 'StrengthUnit_Name' })
+				.populate({ path: 'weight', select: 'WeightUnit_Name' })
+				.populate({ path: 'volume', select: 'VolumeUnit_Name' })
+				.populate({ path: 'concentration', select: 'ConcentrationUnit_Name' })
+				.populate({ path: 'country', select: 'Country_Name Country_Tcode' })
+				.populate({ path: 'ai', select: 'AI_Name' })
 				.exec(function(err, tn) {
 				if (err){
 		    		return res.send({
