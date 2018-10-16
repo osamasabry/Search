@@ -278,7 +278,8 @@ module.exports = {
 	    	} else {
 				
 				var aiObject = _.extend(JSON.parse( JSON.stringify( ai )), {pharamaceutical: ai.pharamaceutical});
-				res.send(ai);
+				
+				// res.send(ai);
 				AllData.push({AIData:aiObject});
     			getTN();
 	    	}
