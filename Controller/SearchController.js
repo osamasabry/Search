@@ -265,9 +265,9 @@ module.exports = {
 
 	getDataAI:function(req,res){
 		AllData=[];
-
+		getTNData=[];
 		AI.findOne({AI_Code: Number(req.body.AI_Code)})
-		.populate({ path: 'pharamaceutical', select: 'Pharmaceutical_Category_Name Pharmaceutical_Category_ATC_Code' })
+		.populate({ path: 'pharamaceutical', select: 'Pharmaceutical_Category_Name Pharmaceutical_Category_ATC_Code -_id' })
 		.exec(function(err, ai){
 			if (err){
 	    		res.send({
@@ -275,8 +275,9 @@ module.exports = {
 				});
 	    	} else {
 				
-				var ainewb = _.extend(JSON.parse( JSON.stringify( ai )), {pharamaceutical: ai.pharamaceutical});
-				AllData.push({AIData:ainewb});
+				var aiObject = _.extend(JSON.parse( JSON.stringify( ai )), {pharamaceutical: ai.pharamaceutical});
+				//res.send(ai);
+				AllData.push({AIData:aiObject});
     			getTN();
 	    	}
 		})
@@ -295,9 +296,8 @@ module.exports = {
 						    key: tn[i].TN_Code,
 						    value: tn[i].TN_Name,
 						});
-		    		}
-		    		AllData.push({TNData:getTNData});
-		    		console.log("pppp");
+					}
+		    		AllData.push({'TNsData':getTNData});
 		    		res.json(AllData);
 		    	}
 			})

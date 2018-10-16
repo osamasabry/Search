@@ -3,7 +3,7 @@ var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+//var bodyParser = require('body-parser');
 var port     = process.env.PORT || 3111;
 var routes = require('./routes/index');
 var db= require('mongoose');
@@ -35,9 +35,9 @@ app.set('view engine', 'html');
 
 app.use(favicon());
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
-app.use(cookieParser());
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded());
+//app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session()); 
 
