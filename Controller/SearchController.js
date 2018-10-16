@@ -270,17 +270,14 @@ module.exports = {
 
 		AI.findOne({AI_Code: Number(req.body.AI_Code)})
 		.populate({ path: 'pharamaceutical', select: 'Pharmaceutical_Category_Name Pharmaceutical_Category_ATC_Code -_id' })
+		.lean()
 		.exec(function(err, ai){
 			if (err){
 	    		res.send({
 					message: err
 				});
 	    	} else {
-				
-				var aiObject = _.extend(JSON.parse( JSON.stringify( ai )), {pharamaceutical: ai.pharamaceutical});
-				
-				// res.send(ai);
-				AllData.push({AIData:aiObject});
+				AllData.push({AIData:ai});
     			getTN();
 	    	}
 		})
@@ -288,6 +285,7 @@ module.exports = {
 		function getTN(){
 			TN.find({TN_ActiveIngredients:{$in:[req.body.AI_Code]}})
 				.select('TN_Code TN_Name')
+				.lean()
 				.exec(function(err, tn) {
 				if (err){
 		    		return res.send({
@@ -316,6 +314,7 @@ module.exports = {
 		
 		AI.findOne({AI_Code: Number(search)})
 		.populate({ path: 'pharamaceutical', select: 'Pharmaceutical_Category_Name Pharmaceutical_Category_ATC_Code' })
+		.lean()
 		.exec(function(err, ai){
 			if (err){
 	    		res.send({
@@ -331,7 +330,7 @@ module.exports = {
 		function getAllTN(){
 			TN.find({TN_ActiveIngredients:{$in:[search]}})
 				.select('TN_Code TN_Name')
-				
+				.lean()
 				.exec(function(err, tn) {
 				if (err){
 		    		return res.send({
@@ -360,6 +359,7 @@ module.exports = {
 				.populate({ path: 'concentration', select: 'ConcentrationUnit_Name' })
 				.populate({ path: 'country', select: 'Country_Name Country_Tcode' })
 				.populate({ path: 'ai', select: 'AI_Name' })
+				.lean()
 				.exec(function(err, tn) {
 				if (err){
 		    		return res.send({
