@@ -266,6 +266,8 @@ module.exports = {
 	getDataAI:function(req,res){
 		AllData=[];
 		getTNData=[];
+		// console.log("aiObject");
+
 		AI.findOne({AI_Code: Number(req.body.AI_Code)})
 		.populate({ path: 'pharamaceutical', select: 'Pharmaceutical_Category_Name Pharmaceutical_Category_ATC_Code -_id' })
 		.exec(function(err, ai){
@@ -276,7 +278,7 @@ module.exports = {
 	    	} else {
 				
 				var aiObject = _.extend(JSON.parse( JSON.stringify( ai )), {pharamaceutical: ai.pharamaceutical});
-				//res.send(ai);
+				res.send(ai);
 				AllData.push({AIData:aiObject});
     			getTN();
 	    	}
