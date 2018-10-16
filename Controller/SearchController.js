@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var AI = require('../Model/AI');
 var TN = require('../Model/TN');
 var CountryBasedAI = require('../Model/country_based_AI');
@@ -273,33 +274,35 @@ module.exports = {
 					message: err
 				});
 	    	} else {
-	    		AllData.push({AIData:ai});
-	    		res.send(AllData);
-    			// getTN();
+				
+				var ainewb = _.extend(JSON.parse( JSON.stringify( ai )), {pharamaceutical: ai.pharamaceutical});
+				AllData = _.extend(AllData ,ainewb )//.push({AIData:ainewb});
+				res.json(AllData);
+				//getTN();
 	    	}
 		})
 
-		// function getTN(){
-		// 	TN.find({TN_ActiveIngredients:{$in:[req.body.AI_Code]}})
-		// 		.select('TN_Code TN_Name')
-		// 		.exec(function(err, tn) {
-		// 		if (err){
-		//     		return res.send({
-		// 				message: err
-		// 			});
-		//     	} else {
-		//     		for (var i = 0; i < tn.length; i++) {
-		//     			getTNData.push({
-		// 				    key: tn[i].TN_Code,
-		// 				    value: tn[i].TN_Name,
-		// 				});
-		//     		}
-		//     		AllData.push({TNData:getTNData});
-		//     		console.log("pppp");
-		//     		res.json(AllData);
-		//     	}
-		// 	})
-		// }
+		function getTN(){
+			TN.find({TN_ActiveIngredients:{$in:[req.body.AI_Code]}})
+				.select('TN_Code TN_Name')
+				.exec(function(err, tn) {
+				if (err){
+		    		return res.send({
+						message: err
+					});
+		    	} else {
+		    		for (var i = 0; i < tn.length; i++) {
+		    			getTNData.push({
+						    key: tn[i].TN_Code,
+						    value: tn[i].TN_Name,
+						});
+		    		}
+		    		AllData.push({TNData:getTNData});
+		    		console.log("pppp");
+		    		res.json(AllData);
+		    	}
+			})
+		}
 	},
 
 	getDataTN:function(req,res){
