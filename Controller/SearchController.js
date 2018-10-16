@@ -276,9 +276,8 @@ module.exports = {
 	    	} else {
 				
 				var ainewb = _.extend(JSON.parse( JSON.stringify( ai )), {pharamaceutical: ai.pharamaceutical});
-				AllData = _.extend(AllData ,ainewb )//.push({AIData:ainewb});
-				res.json(AllData);
-				//getTN();
+				AllData.push({AIData:ainewb});
+    			getTN();
 	    	}
 		})
 
