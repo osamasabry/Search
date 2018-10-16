@@ -2,8 +2,6 @@ var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-//var bodyParser = require('body-parser');
 var port     = process.env.PORT || 3111;
 var routes = require('./routes/index');
 var db= require('mongoose');
@@ -21,13 +19,8 @@ require('./config/passport')(passport);
 
 var app = express();
 app.use(cors({credentials: true, origin: true}))
-// db.connect(process.env.rxpProductionDBConnection,{useNewUrlParser: true});
+db.connect(process.env.rxpProductionDBConnection,{useNewUrlParser: true});
 
-db.connect("mongodb://webappdba:Ma13579@35.204.1.127:27017/RxPediaDB"); 
-
-// db.connect("mongodb://localhost:27017/Medical"); 
-
-// mongodb://webappdba:Ma13579@localhost:27017/RxPediaDB
 // view engine setup
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -40,9 +33,6 @@ app.set('view engine', 'html');
 
 app.use(favicon());
 app.use(logger('dev'));
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded());
-//app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session()); 
 
@@ -84,4 +74,5 @@ var listener = app.listen(port, function(){
 
 
 module.exports = app;
+
 
