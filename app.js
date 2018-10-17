@@ -6,6 +6,7 @@ var port     = process.env.PORT || 3111;
 var routes = require('./routes/index');
 var db= require('mongoose');
 var cors = require('cors');
+var bodyParser = require('body-parser');
 
 // var md5 = require('md5');
 
@@ -35,7 +36,10 @@ app.use(favicon());
 app.use(logger('dev'));
 app.use(passport.initialize());
 app.use(passport.session()); 
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+  }));
 app.use('/', routes);
 
 /// catch 404 and forwarding to error handler
@@ -72,7 +76,4 @@ var listener = app.listen(port, function(){
     console.log('Listening on port ' + listener.address().port); //Listening on port 8888
 });
 
-
 module.exports = app;
-
-
